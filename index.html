@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="nl"><head><meta charset="utf-8">
+<html lang="nl" class="hc"><head><meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Weekmenu</title>
 <meta name="theme-color" content="#ffffff">
@@ -12,14 +12,14 @@
 <link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
 <style>
-/* Weekmenu: één kolom met kaarten per dag, groen met lichte kaarten; recepten, menu en lijstje worden live gedeeld */
-:root{color-scheme:light;box-sizing:border-box;--bg:#24523d;--bt:#eef6ec;--bm:#b4cdbb;--bb:rgba(255,255,255,.18);--hl:#a7dcb8;--card:#fafcf9;--tx:#1f3329;--mu:#5d7266;--ac:#2f6b4f;--acx:#fff;--bd:#d3e0d2;--in:#b7cdb9;--fo:#8fb99d;--warn:#e8c36a}
+/* Weekmenu: één kolom met kaarten per dag, zwart-wit; recepten, menu en lijstje worden live gedeeld */
+:root{color-scheme:light;box-sizing:border-box;--bg:#fff;--bt:#000;--bm:#000;--bb:#000;--hl:#000;--card:#fff;--tx:#000;--mu:#000;--ac:#000;--acx:#fff;--bd:#000;--in:#000;--fo:#000;--warn:#000}
 html{scroll-padding-top:env(safe-area-inset-top,0px)}
 *{box-sizing:border-box}
 body{margin:0;background:var(--bg);color:var(--bt);font:16px/1.45 "Nunito","Quicksand","Varela Round",ui-rounded,"SF Pro Rounded",system-ui,-apple-system,"Segoe UI",sans-serif}
 main{max-width:640px;margin:0 auto;padding:16px 14px 90px}
 h1{font-size:30px;font-weight:800;margin:4px 0 6px;color:var(--bt);letter-spacing:.01em}
-nav{position:fixed;left:0;right:0;bottom:0;display:flex;background:#183a2b;border-top:1px solid var(--bb);padding-bottom:env(safe-area-inset-bottom,0px)}
+nav{position:fixed;left:0;right:0;bottom:0;display:flex;background:#fff;border-top:1px solid var(--bb);padding-bottom:env(safe-area-inset-bottom,0px)}
 nav button{flex:1;padding:16px 4px;border:0;background:none;color:var(--bm);font:inherit;font-size:13px;line-height:1.3;font-weight:600}
 nav button.on{color:var(--hl);font-weight:800;text-decoration:underline;text-decoration-thickness:3px;text-underline-offset:6px}
 .card{background:var(--card);border:1px solid var(--bd);border-radius:20px;padding:16px;margin-bottom:14px;color:var(--tx);box-shadow:0 2px 10px rgba(0,0,0,.25)}.hd{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:0}summary{font-size:14px;color:var(--mu);margin-top:10px;cursor:pointer}
@@ -28,10 +28,10 @@ select,input[type=text],input[type=date],textarea{width:100%;font:inherit;font-s
 select:focus,input:focus,textarea:focus{outline:2px solid var(--fo);outline-offset:1px}
 .ing{font-size:14px;line-height:1.5;color:var(--bm);margin-top:8px}
 .card .ing{color:var(--mu)}
-.btn{border:0;border-radius:999px;padding:13px 16px;font:inherit;font-weight:600;background:#d3ecd9;color:#17382a;margin:0 6px 8px 0}
+.btn{border:0;border-radius:999px;padding:13px 16px;font:inherit;font-weight:600;background:#e6e6e6;color:#000;margin:0 6px 8px 0}
 a.btn{display:inline-block;text-decoration:none}
 .card .btn{background:var(--ac);color:var(--acx)}
-.btn.alt,.card .btn.alt{background:none;color:#d3ecd9;border:1px solid #d3ecd9}
+.btn.alt,.card .btn.alt{background:none;color:#e6e6e6;border:1px solid #e6e6e6}
 .btn:disabled,select:disabled,input:disabled{opacity:.55}
 .row{display:flex;gap:14px;align-items:center;padding:10px 0;font-size:17px;border-bottom:1px solid var(--bb)}
 .row input[type=text].it{flex:1;min-width:0;width:auto;margin:0;padding:6px 0;border:0;border-radius:0;background:none;font:inherit;color:inherit}.row.done input[type=text].it{text-decoration:line-through;color:var(--bm)}
@@ -41,12 +41,12 @@ input[type=checkbox]{width:26px;height:26px;flex:none;accent-color:var(--ac)}
 h2{font-size:14px;color:var(--bt);font-weight:800;letter-spacing:.04em;margin:26px 0 2px;padding-bottom:6px;border-bottom:2px solid var(--hl)}
 .x{float:right;background:none;border:0;color:var(--bm);font-size:18px}
 .card .x{color:var(--mu)}
-select.leeg,select option.bl{color:#9aa59d}
-select option{color:#1f3329}
-select option.bl{color:#9aa59d}
+select.leeg,select option.bl{color:#777}
+select option{color:#000}
+select option.bl{color:#777}
 .cat{display:block;width:100%;text-align:left;background:none;border:0;border-bottom:2px solid var(--hl);color:var(--bm);font:inherit;font-size:14px;font-weight:800;letter-spacing:.04em;padding:12px 0 6px;margin:0}
 .btn{transition:background .15s,color .15s,transform .15s}
-.btn.flash,.btn:active{transition:none;background:#2f6b4f;color:#fff;transform:scale(.96);box-shadow:inset 0 0 0 2px var(--hl)}
+.btn.flash,.btn:active{transition:none;background:#000;color:#fff;transform:scale(.96);box-shadow:inset 0 0 0 2px var(--hl)}
 .hd .day{white-space:nowrap}
 .hd .inc{max-width:none;flex:1;min-width:0;justify-content:flex-end}
 .dh{flex:none;touch-action:none;cursor:grab;user-select:none;-webkit-user-select:none;padding:4px 2px;font-size:22px;line-height:1;color:var(--bm)}
@@ -58,7 +58,7 @@ select option.bl{color:#9aa59d}
 .st:empty{display:none}
 input[type=checkbox]{-webkit-appearance:none;appearance:none;margin:0;display:inline-grid;place-content:center;background:#fff;border:2px solid var(--in);border-radius:7px}
 input[type=checkbox]:checked{background:var(--hl);border-color:var(--hl)}
-input[type=checkbox]:checked::after{content:"";width:6px;height:12px;border:solid #17382a;border-width:0 3px 3px 0;transform:rotate(45deg) translate(-1px,-1px)}
+input[type=checkbox]:checked::after{content:"";width:6px;height:12px;border:solid #000;border-width:0 3px 3px 0;transform:rotate(45deg) translate(-1px,-1px)}
 .row input[type=checkbox]{border-color:#fff}
 .row input[type=checkbox]:checked{border-color:var(--hl)}
 .card input[type=checkbox]:checked{background:var(--ac);border-color:var(--ac)}
