@@ -100,7 +100,7 @@ html.hc .btn.flash,html.hc .btn:active,html.hc .card .btn:active{background:#c8c
 .lnk{display:block;background:none;border:0;color:var(--mu);font:inherit;font-size:14px;text-decoration:underline;padding:14px 0 0}
 .dsp{display:inline-block;min-width:70px;outline:none;border-bottom:1px dashed var(--in)}
 .ing li .x{margin-left:8px}
-.syn{flex:none;margin-left:auto;width:46px;height:46px;border-radius:50%;border:0;background:#000;padding:0;display:grid;place-items:center;cursor:pointer}.syn svg{width:30px;height:30px;display:block}.syn.spin svg{animation:sp .8s linear infinite;transform-origin:50% 50%}.syn:active{background:#333}@keyframes sp{to{transform:rotate(360deg)}}
+.syn{flex:none;margin-left:auto;width:46px;height:46px;border-radius:50%;border:0;background:#555;padding:0;display:grid;place-items:center;cursor:pointer}.syn svg{width:30px;height:30px;display:block}.syn.spin svg{animation:sp .8s linear infinite;transform-origin:50% 50%}.syn:active{background:#333}@keyframes sp{to{transform:rotate(360deg)}}
 [hidden]{display:none!important}
 :root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
 </style>
@@ -177,7 +177,7 @@ html.hc .btn.flash,html.hc .btn:active,html.hc .card .btn:active{background:#c8c
   window.claude={refresh:async()=>{v=null;let t=0;while((polling||inflight||queue.length)&&t++<40)await new Promise(r=>setTimeout(r,250));await poll();if(!lastOk)throw new Error("mislukt")},use:async n=>{if(n==="db"){start();return{doc:docRef,collection:colRef}}return null}};
 })();
 </script>
-<main><div class="top"><h1 id="t"></h1><button class="syn" id="syn" aria-label="Nu vernieuwen" title="Nu vernieuwen" onclick="syncNow()"><svg viewBox="0 0 24 24" aria-hidden="true"><g transform="translate(0 1.5)"><path d="M19.73 9.93A8 8 0 1 1 14.07 4.27" fill="none" stroke="#fff" stroke-width="3.4" stroke-linecap="round"/><path d="M12.95 7.7L18.51 5.46L14.81.74Z" fill="#fff" stroke="#fff" stroke-width="1.6" stroke-linejoin="round"/></g></svg></button><button class="hcb" id="hc" hidden aria-label="Wissel tussen groene en zwart-witte weergave" aria-pressed="false" onclick="toggleHC()"></button></div><div class="st" id="st"></div><div id="v"></div></main>
+<main><div class="top"><h1 id="t"></h1><button class="syn" id="syn" aria-label="Nu vernieuwen" title="Nu vernieuwen" onclick="syncNow()"><svg viewBox="0 0 24 24" aria-hidden="true" style="overflow:visible"><path d="M19.73 9.93A8 8 0 1 1 14.07 4.27" fill="none" stroke="#fff" stroke-width="1.9" stroke-linecap="round"/><path d="M13.26 6.54L17.26 5.12L14.5 1.9Z" fill="#fff" stroke="#fff" stroke-width="1" stroke-linejoin="round"/></svg></button><button class="hcb" id="hc" hidden aria-label="Wissel tussen groene en zwart-witte weergave" aria-pressed="false" onclick="toggleHC()"></button></div><div class="st" id="st"></div><div id="v"></div></main>
 <nav id="nav"></nav>
 <script>
 const D=["Vrijdag","Zaterdag","Zondag","Maandag","Dinsdag","Woensdag","Donderdag"];
