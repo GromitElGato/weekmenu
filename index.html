@@ -100,6 +100,7 @@ html.hc .btn.flash,html.hc .btn:active,html.hc .card .btn:active{background:#c8c
 .lnk{display:block;background:none;border:0;color:var(--mu);font:inherit;font-size:14px;text-decoration:underline;padding:14px 0 0}
 .dsp{display:inline-block;min-width:70px;outline:none;border-bottom:1px dashed var(--in)}
 .ing li .x{margin-left:8px}
+.syn{flex:none;margin-left:auto;width:44px;height:44px;border-radius:50%;border:2px solid var(--tx);background:var(--card);color:var(--tx);font:inherit;font-size:24px;line-height:1;padding:0}.syn.spin{opacity:.5}.syn.spin{animation:sp .8s linear infinite}@keyframes sp{to{transform:rotate(360deg)}}
 [hidden]{display:none!important}
 :root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
 </style>
@@ -110,7 +111,7 @@ html.hc .btn.flash,html.hc .btn:active,html.hc .card .btn:active{background:#c8c
 (function(){
   const POLL=window.POLL_MS||7000;
   const cache=new Map(),subs=[];
-  let loaded=false,v=null,queue=[],inflight=false,polling=false,fails=0,started=false;
+  let lastOk=true,loaded=false,v=null,queue=[],inflight=false,polling=false,fails=0,started=false;
   const clone=o=>JSON.parse(JSON.stringify(o));
   const merge=(a,b)=>{for(const k in b){if(b[k]&&typeof b[k]==="object"&&!Array.isArray(b[k])){a[k]=merge(a[k]&&typeof a[k]==="object"&&!Array.isArray(a[k])?a[k]:{},b[k])}else a[k]=b[k]}return a};
   const meta={fromCache:false,hasPendingWrites:false};
@@ -135,7 +136,7 @@ html.hc .btn.flash,html.hc .btn:active,html.hc .card .btn:active{background:#c8c
     if(polling||inflight||queue.length)return;
     polling=true;
     try{
-      const r=await run("api_dump",typeof wk!=="undefined"?wk:"",v);
+      const r=await run("api_dump",typeof wk!=="undefined"?wk:"",v);lastOk=true;
       if(!inflight&&!queue.length){
         if(r.same){v=r.v;if(!loaded){loaded=true;fireNow()}}
         else{
@@ -143,7 +144,7 @@ html.hc .btn.flash,html.hc .btn:active,html.hc .card .btn:active{background:#c8c
           cache.clear();m.forEach((x,k)=>cache.set(k,x));v=r.v;loaded=true;if(changed)fireNow()
         }
       }
-    }catch(e){}
+    }catch(e){lastOk=false}
     polling=false
   }
   async function flush(){
@@ -173,10 +174,10 @@ html.hc .btn.flash,html.hc .btn:active,html.hc .card .btn:active{background:#c8c
     setInterval(()=>{if(!document.hidden)poll()},POLL);
     document.addEventListener("visibilitychange",()=>{if(!document.hidden)poll()})
   }
-  window.claude={use:async n=>{if(n==="db"){start();return{doc:docRef,collection:colRef}}return null}};
+  window.claude={refresh:async()=>{v=null;let t=0;while((polling||inflight||queue.length)&&t++<40)await new Promise(r=>setTimeout(r,250));await poll();if(!lastOk)throw new Error("mislukt")},use:async n=>{if(n==="db"){start();return{doc:docRef,collection:colRef}}return null}};
 })();
 </script>
-<main><div class="top"><h1 id="t"></h1><button class="hcb" id="hc" hidden aria-label="Wissel tussen groene en zwart-witte weergave" aria-pressed="false" onclick="toggleHC()"></button></div><div class="st" id="st"></div><div id="v"></div></main>
+<main><div class="top"><h1 id="t"></h1><button class="syn" id="syn" aria-label="Nu vernieuwen" title="Nu vernieuwen" onclick="syncNow()">&#8635;</button><button class="hcb" id="hc" hidden aria-label="Wissel tussen groene en zwart-witte weergave" aria-pressed="false" onclick="toggleHC()"></button></div><div class="st" id="st"></div><div id="v"></div></main>
 <nav id="nav"></nav>
 <script>
 const D=["Vrijdag","Zaterdag","Zondag","Maandag","Dinsdag","Woensdag","Donderdag"];
@@ -234,6 +235,7 @@ function refresh(){
 }
 document.addEventListener("focusout",()=>{if(deferred)setTimeout(()=>{deferred=false;refresh()},350)});
 
+async function syncNow(){const b=document.getElementById("syn");if(b.classList.contains("spin"))return;b.classList.add("spin");try{await window.claude.refresh();flash("Bijgewerkt")}catch(e){flash("Vernieuwen mislukt, controleer je verbinding.")}b.classList.remove("spin")}
 function flash(m){msg=m;clearTimeout(tm);tm=setTimeout(()=>{msg="";paintStatus()},6000);paintStatus()}
 function ok(){
   if(ro){flash("Alleen lezen: je kunt hier niets wijzigen.");return false}
