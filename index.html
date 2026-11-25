@@ -116,14 +116,25 @@ html.hc .btn.flash,html.hc .btn:active,html.hc .card .btn:active{background:#c8c
   const merge=(a,b)=>{for(const k in b){if(b[k]&&typeof b[k]==="object"&&!Array.isArray(b[k])){a[k]=merge(a[k]&&typeof a[k]==="object"&&!Array.isArray(a[k])?a[k]:{},b[k])}else a[k]=b[k]}return a};
   const meta={fromCache:false,hasPendingWrites:false};
   // Praat met de Apps Script-API (zie config.js). GET voor lezen, POST (text/plain) voor schrijven.
+  // Sleutel: komt uit de link (#k=...) of wordt één keer gevraagd en onthouden op dit toestel.
+  const KEYN="weekmenu-key";let asked=false;
+  try{const m=/[#&]k=([^&]+)/.exec(location.hash);if(m){localStorage.setItem(KEYN,decodeURIComponent(m[1]));history.replaceState(null,"",location.pathname+location.search)}}catch(e){}
+  const getKey=()=>{
+    let k="";try{k=localStorage.getItem(KEYN)||""}catch(e){}
+    if(!k&&!asked){asked=true;k=(prompt("Geef de sleutel van het weekmenu in:")||"").trim();if(k){try{localStorage.setItem(KEYN,k)}catch(e){}}}
+    if(!k)throw new Error("sleutel ontbreekt");
+    return k
+  };
   const run=async(fn,...a)=>{
     const url=window.API_URL;
     if(!url)throw new Error("API_URL ontbreekt in config.js");
+    const key=getKey();
     let r;
-    if(fn==="api_dump")r=await fetch(url+"?action=dump&wk="+encodeURIComponent(a[0]||"")+"&v="+encodeURIComponent(a[1]||""));
-    else r=await fetch(url,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({action:"write",ops:a[0]})});
+    if(fn==="api_dump")r=await fetch(url+"?action=dump&wk="+encodeURIComponent(a[0]||"")+"&v="+encodeURIComponent(a[1]||"")+"&key="+encodeURIComponent(key));
+    else r=await fetch(url,{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify({action:"write",key:key,ops:a[0]})});
     if(!r.ok)throw new Error("HTTP "+r.status);
     const j=await r.json();
+    if(j&&j.error==="ongeldige sleutel"){try{localStorage.removeItem(KEYN)}catch(e){}asked=false;throw new Error(j.error)}
     if(j&&j.error)throw new Error(j.error);
     return j
   };
