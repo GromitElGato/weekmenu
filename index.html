@@ -90,6 +90,8 @@ html.hc .row{border-bottom:1px solid #000}
 html.hc .row.drag{background:rgba(0,0,0,.1)}
 html.hc .btn,html.hc .card .btn,html.hc .btn.alt,html.hc .card .btn.alt,html.hc .btn[title="Sluiten"]{background:#e6e6e6!important;color:#000!important;border:1px solid #9a9a9a}
 html.hc .btn.flash,html.hc .btn:active,html.hc .card .btn:active{background:#c8c8c8!important;color:#000!important;box-shadow:none}
+.card.recs{padding:0 16px;margin-top:-10px}
+html.hc .card.recs{padding:0!important}
 .rr{border-bottom:1px solid var(--bd)}.rr:last-child{border-bottom:0}
 .rh{display:flex;align-items:center;gap:10px;width:100%;background:none;border:0;padding:15px 0;font:inherit;font-size:17px;font-weight:700;color:var(--tx);text-align:left}
 .rn{flex:1}
@@ -496,7 +498,7 @@ function render(){
       `<h2>NA TE KIJKEN</h2>`+sec("extra",EXTRA.map(t=>["e:"+t,row(t,"e:"+t)]))+customHtml(row)+`<div style="margin:26px 0 0"><button class="cat" onclick="addT()">VOEG EEN CATEGORIE TOE</button><div style="display:flex;gap:8px;margin:10px 0 0"><input type="text" id="ct" placeholder="soep, mealprep..." style="margin:0;font-size:15px;padding:10px" onkeydown="if(event.key==='Enter')addT()"><button class="btn" style="margin:0;padding:10px 14px" onclick="addT()">+</button></div></div>`;
   }else{
     const rows=S.recipes.filter(r=>r.n&&r.n!=="Bestellen").sort(byName);
-    v.innerHTML=`<div class="card" style="padding:2px 16px">`+(rows.length?rows.map(r=>{const o=openR===r.id;
+    v.innerHTML=`<div class="card recs">`+(rows.length?rows.map(r=>{const o=openR===r.id;
       return`<div class="rr"><button class="rh ${o?"o":""}" data-ro-ok onclick="openR=${o?"null":`'${r.id}'`};render()"><span class="rn">${esc(r.n)}</span>${r.off?`<span class="tg">niet in keuzelijst</span>`:""}<span class="ch"></span></button>`+(o?`<div class="rb">
         <div class="lb">Ingrediënten</div><ul class="ing" style="margin:0;padding-left:20px">${ulHtml(r)}</ul>
         <label class="inc" style="justify-content:flex-start;text-align:left;margin-top:14px"><input type="checkbox" id="off-${r.id}" ${r.off?"":"checked"} onchange="setOff('${r.id}',!this.checked)">Toon in keuzelijst van weekmenu</label>
